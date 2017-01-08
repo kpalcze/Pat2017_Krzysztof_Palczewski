@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">krzysztof.palczewski</string>
-    <string name="textView1">Pierwsze Zadanko :)</string>
+    <string name="email_hint">yourEmail@Address.com</string>
+    <string name="password_hint">yourPassword</string>
+    <string name="login">Log in</string>
+    <string name="wrong_password_length">Password should contain at least 8 signs.</string>
+    <string name="wrong_password_digit">Password should contain at least one digit.</string>
+    <string name="wrong_password_lowercase">Password should contain at least one lowercase letter.</string>
+    <string name="wrong_password_uppercase">Password should contain at least one uppercase letter.</string>
+    <string name="wrong_email">Incorrect E-mail address.</string>
+    <string name="logout">Log out</string>
+
+
+
 </resources>

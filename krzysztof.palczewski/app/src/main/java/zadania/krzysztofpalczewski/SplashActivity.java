@@ -13,14 +13,20 @@ public class SplashActivity extends AppCompatActivity {
     private Handler handler;
 
 
-    //if BACK button wasn't pressed, after 5 seconds start MainActivity.java
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
             if (!backPressed){
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                if (LoginActivity.userLoggedIn) {
+                    Intent main = new Intent (SplashActivity.this, MainActivity.class);
+                    startActivity(main);
+                    finish();
+                } else {
+                    Intent login = new Intent(SplashActivity.this, LoginActivity.class);
+                    startActivity(login);
+                    finish();
+                }
+
             }
         }
     };
@@ -29,11 +35,12 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //SplashActivity uses background_splash.xml as a theme background
-
-        //create handler launching MainActivity.java
         handler = new Handler();
         handler.postDelayed(runnable, SPLASH_DISPLAY_LENGTH);
+
+
+
+
     }
 
     //if onStart() is called again (e.g. user opens app that was in background state) create handler again
