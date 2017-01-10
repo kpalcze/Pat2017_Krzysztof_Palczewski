@@ -11,13 +11,13 @@ public class SplashActivity extends AppCompatActivity {
     private boolean backPressed = false;
     private boolean onStopCalled = false;
     private Handler handler;
-
+    SessionManager sessionManager;
 
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
             if (!backPressed){
-                if (LoginActivity.userLoggedIn) {
+                if (sessionManager.isUserLoggedIn()) {
                     Intent main = new Intent (SplashActivity.this, MainActivity.class);
                     startActivity(main);
                     finish();
@@ -26,7 +26,6 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(login);
                     finish();
                 }
-
             }
         }
     };
@@ -35,12 +34,10 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        sessionManager = new SessionManager(getApplicationContext());
+
         handler = new Handler();
         handler.postDelayed(runnable, SPLASH_DISPLAY_LENGTH);
-
-
-
-
     }
 
     //if onStart() is called again (e.g. user opens app that was in background state) create handler again

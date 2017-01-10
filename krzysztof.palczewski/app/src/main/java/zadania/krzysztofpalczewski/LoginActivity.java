@@ -13,16 +13,18 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-    static boolean userLoggedIn = false;
+    //static boolean userLoggedIn = false;
     private EditText email, password;
     private TextView wrongEmail, wrongPassword;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_login);
+        sessionManager = new SessionManager(getApplicationContext());
 
-        Log.d("login", "(LoginActivity) Logged in: " + userLoggedIn);
+        //Log.d("login", "(LoginActivity) Logged in: " + userLoggedIn);
 
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
@@ -40,8 +42,9 @@ public class LoginActivity extends AppCompatActivity {
             wrongPassword.setText("");
         }
         if (isEmailValid(emailWritten) && isPasswordValid(passwordWritten)) {
-            userLoggedIn = true;
-            Intent intent = new Intent(this, MainActivity.class);
+            sessionManager.createUserLoginSession("sessionPreferences");
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }

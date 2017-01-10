@@ -13,14 +13,14 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private boolean doubleBackToExitPressedOnce = false;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("login", "(MainActivity) Logged in: " + LoginActivity.userLoggedIn);
+        sessionManager = new SessionManager(getApplicationContext());
     }
 
     @Override
@@ -33,37 +33,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                logout();
+                sessionManager.logoutUser();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    private void logout() {
-        LoginActivity.userLoggedIn = false;
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    //user has to click twice Back button if wants to exit app
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
-    }
-
 }
