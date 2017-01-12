@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-    //static boolean userLoggedIn = false;
     private EditText email, password;
     private TextView wrongEmail, wrongPassword;
     SessionManager sessionManager;
@@ -23,8 +22,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_login);
         sessionManager = new SessionManager(getApplicationContext());
-
-        //Log.d("login", "(LoginActivity) Logged in: " + userLoggedIn);
 
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
