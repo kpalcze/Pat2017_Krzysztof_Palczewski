@@ -9,6 +9,7 @@
     <string name="wrong_password_uppercase">Password should contain at least one uppercase letter.</string>
     <string name="wrong_email">Incorrect E-mail address.</string>
     <string name="logout">Log out</string>
+    <string name="no_internet_connection">Turn Wi-Fi or Mobile Data on</string>
 
 
 

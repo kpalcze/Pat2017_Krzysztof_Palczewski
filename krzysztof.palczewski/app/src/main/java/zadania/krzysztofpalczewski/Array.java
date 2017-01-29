@@ -2,11 +2,22 @@
 package zadania.krzysztofpalczewski;
 
 
-public class ImageDetails {
+import android.graphics.Bitmap;
+
+
+public class Array {
 
     private String title;
     private String desc;
     private String url;
+    private Bitmap image;
+
+    public Bitmap getImage() { return image; }
+
+    public void setBitmap(Bitmap image) {
+        this.image = image;
+    }
+
 
     public String getTitle() {
         return title;
@@ -31,5 +42,4 @@ public class ImageDetails {
     public void setUrl(String url) {
         this.url = url;
     }
-
 }

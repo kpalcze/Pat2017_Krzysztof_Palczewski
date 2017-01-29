@@ -5,14 +5,14 @@ import java.util.List;
 
 public class Image {
 
-    private List<ImageDetails> imageDetails = null;
+    private List<Array> array = null;
 
-    public List<ImageDetails> getImageDetails() {
-        return imageDetails;
+    public List<Array> getArray() {
+        return array;
     }
 
-    public void setImageDetails(List<ImageDetails> imageDetails) {
-        this.imageDetails = imageDetails;
+    public void setArray(List<Array> array) {
+        this.array = array;
     }
 
 }
