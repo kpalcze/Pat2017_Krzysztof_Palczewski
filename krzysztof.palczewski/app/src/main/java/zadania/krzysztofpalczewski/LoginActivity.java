@@ -9,20 +9,29 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hannesdorfmann.mosby.mvp.MvpActivity;
+
 import java.util.regex.Pattern;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implements LoginView {
 
     private EditText email, password;
     private TextView wrongEmail, wrongPassword;
     SessionManager sessionManager;
+
+    public LoginPresenter createPresenter(){
+        return new LoginPresenter();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_login);
         sessionManager = new SessionManager(getApplicationContext());
+        initViews();
+    }
 
+    private void initViews() {
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         wrongEmail = (TextView) findViewById(R.id.wrongEmail);
@@ -32,80 +41,31 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginButtonClicked(View v) {
         String emailWritten = email.getText().toString();
         String passwordWritten = password.getText().toString();
-        if (isEmailValid(emailWritten)){
-            wrongEmail.setText("");
-        }
-        if (isPasswordValid(passwordWritten)) {
-            wrongPassword.setText("");
-        }
-        if (isEmailValid(emailWritten) && isPasswordValid(passwordWritten)) {
-            sessionManager.createUserLoginSession("sessionPreferences");
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        }
+
+        getPresenter().onLoginButtonClicked(emailWritten, passwordWritten);
     }
 
-    private boolean isEmailValid(String email) {
-        Pattern pattern = Patterns.EMAIL_ADDRESS;
-        boolean isEmailValid = pattern.matcher(email).matches();
-        if (!isEmailValid)
-            wrongEmail.setText(R.string.wrong_email);
-        return isEmailValid;
+    public void showWrongPassword(){
+        wrongPassword.setText(R.string.wrong_password);
     }
 
-    private boolean isPasswordValid(String password) {
-        char[] c_password = password.toCharArray();
-        boolean isAtLeast8 = c_password.length >= 8;
-        boolean hasDigit = false;
-        boolean hasLowerCase = false;
-        boolean hasUpperCase = false;
+    public void showWrongEmail(){
+        wrongEmail.setText(R.string.wrong_email);
+    }
 
-        //searches for digit
-        for (int i = 0; i < c_password.length; ++i) {
-            if (c_password[i] >= '0' && c_password[i] <= '9') {
-                Log.d("debug", "digit found");
-                hasDigit = true;
-                break;
-            }
-        }
+    public void showEmailCorrect() {
+        wrongEmail.setText("");
+    }
 
-        //searches for lowercase letter
-        for (int i = 0; i < c_password.length; ++i) {
-            if (c_password[i] >= 97 && c_password[i] <= 122) {
-                Log.d("debug", "lowercase letter found");
-                hasLowerCase = true;
-                break;
-            }
-        }
+    public void showPasswordCorrect() {
+        wrongPassword.setText("");
+    }
 
-        //searches for uppercase letter
-        for (int i = 0; i < c_password.length; ++i) {
-            if (c_password[i] >= 65 && c_password[i] <= 90) {
-                Log.d("debug", "uppercase letter found");
-                hasUpperCase = true;
-                break;
-            }
-        }
-
-        if (!hasUpperCase)
-            wrongPassword.setText(R.string.wrong_password_uppercase);
-
-        if (!hasLowerCase)
-            wrongPassword.setText(R.string.wrong_password_lowercase);
-
-        if (!hasDigit)
-            wrongPassword.setText(R.string.wrong_password_digit);
-
-        if (!isAtLeast8)
-            wrongPassword.setText(R.string.wrong_password_length);
-
-        if (isAtLeast8 && hasDigit && hasLowerCase && hasUpperCase) {
-            return true;
-        }
-        else {
-            return false;
-        }
+    public void goToMainActivity(){
+        sessionManager.createUserLoginSession("sessionPreferences");
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }

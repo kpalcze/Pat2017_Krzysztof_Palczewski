@@ -3,6 +3,7 @@
     <string name="email_hint">yourEmail@Address.com</string>
     <string name="password_hint">yourPassword</string>
     <string name="login">Log in</string>
+    <string name="wrong_password">Password should contain at least 8 signs, one digit, at least one lower- and uppercase letter</string>
     <string name="wrong_password_length">Password should contain at least 8 signs.</string>
     <string name="wrong_password_digit">Password should contain at least one digit.</string>
     <string name="wrong_password_lowercase">Password should contain at least one lowercase letter.</string>

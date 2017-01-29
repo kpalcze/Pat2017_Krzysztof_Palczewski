@@ -1,7 +1,6 @@
 package zadania.krzysztofpalczewski;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,15 +9,12 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.LruCache;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,6 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +43,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AsyncTaskResponse {
+public class MainActivity extends MvpActivity<MainView, MainPresenter> implements AsyncTaskResponse, MainView {
 
     public final static String BASE_SERVER_URL =  "http://10.0.2.2:8080";
                                                     //"http://192.168.0.106:8080";
@@ -68,6 +65,10 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskResponse
     private LruCache<String, Bitmap> mMemoryCache;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     SessionManager sessionManager;
+
+    public MainPresenter createPresenter() {
+        return new MainPresenter();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,7 +257,6 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskResponse
 
     private void populateListFromFile() {
         JSONObject json = readFile(fileName);
-        String sJson = json.toString();
         Gson gson = new Gson();
         if (json != null) {
             Image image = gson.fromJson(json.toString(), Image.class);
@@ -324,5 +324,17 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskResponse
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void showProgress(){
+        progress.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgress() {
+        progress.setVisibility(View.INVISIBLE);
+    }
+
+    public void downloadFile(){
+
     }
 }

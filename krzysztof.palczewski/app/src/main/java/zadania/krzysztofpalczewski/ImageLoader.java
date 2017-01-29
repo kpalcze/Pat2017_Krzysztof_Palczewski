@@ -23,7 +23,6 @@ public class ImageLoader {
     private String url;
     private Bitmap image;
     private ImageAdapter imgAdapter;
-    private int position;
     private AsyncTaskResponse asyncTaskResponse;
     private int imgIndex;
 
@@ -32,7 +31,6 @@ public class ImageLoader {
         this.url = imgUrl;
         this.imgAdapter = imgAdapter;
         this.image = null;
-        this.position = position;
         this.asyncTaskResponse = activityContext;
         this.imgIndex = imgIndex;
     }
@@ -66,7 +64,6 @@ public class ImageLoader {
             if (bitmap != null) {
                 Log.i("ImageLoadTask", "Successfully loaded " + name + " image");
                 if (imgAdapter != null) {
-                    Log.d("OnPostExecute", "" + bitmap +" " + imgIndex);
                     asyncTaskResponse.imageDownloaded(bitmap, imgIndex);
                     imgAdapter.notifyDataSetChanged();
                 }
